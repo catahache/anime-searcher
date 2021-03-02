@@ -1,25 +1,129 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from "react";
+import { CardsContainer } from "./components/CardsContainer";
+import { Botonera } from "./components/Botonera";
+import { Navbar } from "./components/Nav/Navbar";
+import { Login } from "./components/Login";
+import firebase from "firebase/app";
+import "firebase/auth";
+import { Splash } from "./components/Splash";
+import SearchBar from "./components/Nav/SearchBar/SearchBar";
 
+const fetchURL =
+    "https://kitsu.io/api/edge/anime?page[limit]=20&page[offset]=5"; //TODO ver pagination
+
+function getWindowDimensions() {
+    const { innerWidth: width, innerHeight: height } = window;
+    return {
+        width,
+        height,
+    };
+}
+
+export const useWindowDimensions = () => {
+    const [windowDimensions, setWindowDimensions] = useState(
+        getWindowDimensions()
+    );
+
+    useEffect(() => {
+        function handleResize() {
+            setWindowDimensions(getWindowDimensions());
+        }
+
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
+
+    return windowDimensions;
+};
+
+//crea un array de vistas con el onClick de cada card y se lo pasa a /vistas que esta en la botonera
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const [data, setData] = useState(null);
+    const [animeList, setAnime] = useState(null);
+    const [animeNamesListDefault, setAnimeNamesListDefault] = useState(null);
+    const [input, setInput] = useState("");
+    const [arrayVistos, setArrayVistos] = useState({});
+    const [arrayWishlist, setArrayWishlist] = useState({});
+    const { height, width } = useWindowDimensions();
+
+    // const getData = () => fetch(`${fetchURL}`).then((res) => res.json());
+
+    // useEffect(() => {
+    //     getData().then((data) => setData(data));
+    // }, []);
+
+    const fetchData = async () => {
+        return await fetch(fetchURL)
+            .then((response) => response.json())
+            .then((data) => {
+                setData(data);
+                setAnime(data.data);
+                setAnimeNamesListDefault(data);
+
+                //TODO en el fetch de la API de anime setear con ...prev e ir sumando los nombres
+                // data.map((anime)=>{//TODO ver...
+                //     setAnimeNames((anime)=>({
+                //         ...anime,
+                //         name: data.attributes.canonicalTitle
+                //     }))
+                //     setAnimeNamesListDefault((anime)=>({
+                //         ...anime,
+                //         name: data.attributes.canonicalTitle
+                //     }))
+                // })
+            });
+    };
+
+    const updateInput = async (input) => {
+        const filtered = animeNamesListDefault.data.filter((animeName) => {
+            if (
+                animeName.attributes.canonicalTitle
+                    .toLowerCase()
+                    .includes(input.toLowerCase())
+            ) {
+                return animeName;
+            }
+        });
+        setInput(input);
+        setAnime(filtered); //reemplazo los valores de la lista por los filtrados
+    };
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    const clickVisto = (animesVistos) => {
+        setArrayVistos(animesVistos); //animesVistos lo envia CardsContainer
+    };
+
+    const clickWishlist = (animesWish) => {
+        setArrayWishlist(animesWish); //animesWish lo envia CardsContainer
+    };
+
+    return (
+        <React.Fragment>
+            {/* {user ? <div>{user.displayName}</div> : <span></span>} */}
+            <Navbar
+                vistos={arrayVistos}
+                wishlist={arrayWishlist}
+                input={input}
+                onChange={updateInput}
+            ></Navbar>
+            {/* <Login></Login> */}
+            {/* <div className="card-action right-align">
+                <button className="btn btn-info" onClick={handleAuth}>
+                    Login con Google
+                </button>
+            </div> */}
+            {width < 800 ? <span></span> : <Splash></Splash>}
+
+            <CardsContainer
+                vistos={clickVisto}
+                wishlist={clickWishlist}
+                anime={animeList}
+            ></CardsContainer>
+        </React.Fragment>
+    );
 }
 
 export default App;

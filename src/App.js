@@ -36,7 +36,6 @@ export const useWindowDimensions = () => {
     return windowDimensions;
 };
 
-//crea un array de vistas con el onClick de cada card y se lo pasa a /vistas que esta en la botonera
 function App() {
     const [data, setData] = useState(null);
     const [animeList, setAnime] = useState(null);
@@ -59,18 +58,7 @@ function App() {
                 setData(data);
                 setAnime(data.data);
                 setAnimeNamesListDefault(data);
-
-                //TODO en el fetch de la API de anime setear con ...prev e ir sumando los nombres
-                // data.map((anime)=>{//TODO ver...
-                //     setAnimeNames((anime)=>({
-                //         ...anime,
-                //         name: data.attributes.canonicalTitle
-                //     }))
-                //     setAnimeNamesListDefault((anime)=>({
-                //         ...anime,
-                //         name: data.attributes.canonicalTitle
-                //     }))
-                // })
+                console.log(data.data);
             });
     };
 

@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 
 export const Card = (props) => {
     const [clickeadoVisto, setClickeadoVisto] = useState(false);
     const [clickeadoWishlist, setClickeadoWishlist] = useState(false);
+    const history = useHistory();
 
     const clickVisto = () => {
         props.visto(props.anime); //si pulsa en visto se envia el anime entero a la fx pushAnimeVisto en CardsContainer
@@ -13,6 +15,11 @@ export const Card = (props) => {
     const clickWishlist = () => {
         props.wishlist(props.anime);
         setClickeadoWishlist(true);
+    };
+
+    const handleClickVerMas = () => {
+        history.push(`/anime/${props.anime.id}`);
+        // console.log(props.anime.id);
     };
 
     return (
@@ -75,6 +82,14 @@ export const Card = (props) => {
                 ) : (
                     <span></span>
                 )}
+
+                <button
+                    onClick={handleClickVerMas}
+                    type="button"
+                    className="btn btn-outline-success"
+                >
+                    Ver mas
+                </button>
 
                 <p className="card-text" style={{ fontSize: "10px" }}>
                     {props.anime.attributes.episodeLength} episodios

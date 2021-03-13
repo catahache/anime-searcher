@@ -1,12 +1,10 @@
 import React from "react";
-import { Card } from "../Card";
+import CardPrueba from "../CardPrueba";
 import { Navbar } from "../Nav/Navbar";
-import { Botonera } from "../Botonera";
 
 //recibe un array de vistas y lo recorre
 const Vistos = (props) => {
     const vistos = props.location.state.arrayVistos;
-    // console.log(props.location.state.arrayVistos); //location state del Link
 
     const noFunction = () => {
         console.log("Nope");
@@ -26,12 +24,12 @@ const Vistos = (props) => {
                                 key={anime.id}
                                 className="col-12 col-md-6 col-lg-4"
                             >
-                                <Card
+                                <CardPrueba
                                     anime={anime}
                                     visto={noFunction}
                                     wishlist={noFunction}
                                     buttons={false}
-                                ></Card>
+                                ></CardPrueba>
                             </div>
                         ))
                     ) : (

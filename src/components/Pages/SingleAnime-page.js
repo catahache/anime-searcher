@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
-// const Whatever = ({ data }) => {
-const Whatever = () => {
+const SingleAnime = () => {
     const { id } = useParams();
     const fetchURL = `https://kitsu.io/api/edge/anime/${id}`;
     const [anime, setAnime] = useState(null);
@@ -75,4 +74,4 @@ const Whatever = () => {
     );
 };
 
-export default Whatever;
+export default SingleAnime;

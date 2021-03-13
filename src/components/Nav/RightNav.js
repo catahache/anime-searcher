@@ -1,13 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Navbar from "./Navbar";
+// import Navbar from "./Navbar";
 import styled from "styled-components";
 
 const Ul = styled.ul`
     list-style: none;
     display: flex;
     flex-flow: row nowrap;
-    z-index: 1;
+    z-index: 2;
     margin-bottom: 0;
     color: #fff;
     li {

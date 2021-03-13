@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { CardsContainer } from "./components/CardsContainer";
-import { Botonera } from "./components/Botonera";
+// import { Botonera } from "./components/Botonera";
 import { Navbar } from "./components/Nav/Navbar";
-import { Login } from "./components/Login";
-import firebase from "firebase/app";
+// import { Login } from "./components/Login";
+// import firebase from "firebase/app";
 import "firebase/auth";
 import { Splash } from "./components/Splash";
-import SearchBar from "./components/Nav/SearchBar/SearchBar";
+// import SearchBar from "./components/Nav/SearchBar/SearchBar";
 
 const fetchURL =
     "https://kitsu.io/api/edge/anime?page[limit]=20&page[offset]=5"; //TODO ver pagination
@@ -37,7 +37,7 @@ export const useWindowDimensions = () => {
 };
 
 function App() {
-    const [data, setData] = useState(null);
+    // const [data, setData] = useState(null);
     const [animeList, setAnime] = useState(null);
     const [animeNamesListDefault, setAnimeNamesListDefault] = useState(null);
     const [input, setInput] = useState("");
@@ -55,10 +55,10 @@ function App() {
         return await fetch(fetchURL)
             .then((response) => response.json())
             .then((data) => {
-                setData(data);
+                // setData(data);
                 setAnime(data.data);
                 setAnimeNamesListDefault(data);
-                console.log(data.data);
+                // console.log(data.data);
             });
     };
 
